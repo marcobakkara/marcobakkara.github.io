@@ -858,32 +858,29 @@
             });
         });
 
-        // Download function
+        // Download function - FIXED VERSION
         function downloadFile(filename) {
             // Create a temporary link element
             const link = document.createElement('a');
             
-            // For demo purposes, we'll create a simple text file
-            // In real implementation, you would have actual files to download
-            const content = `Marco's Resource: ${filename}\n\nThis is a demo download file.\nActual implementation would contain the real resource files.\n\n© 2025 Marco Julius Andreas\nLicensed under Marco's License\n\nThank you for downloading!`;
-            
-            const blob = new Blob([content], { type: 'text/plain' });
-            const url = window.URL.createObjectURL(blob);
-            
-            link.href = url;
+            // Set the href to the actual file path
+            link.href = filename;
             link.download = filename;
+            
+            // Add the link to DOM temporarily
             document.body.appendChild(link);
+            
+            // Trigger the download
             link.click();
             
-            // Cleanup
+            // Remove the link from DOM
             document.body.removeChild(link);
-            window.URL.revokeObjectURL(url);
             
             // Show download confirmation
             showDownloadConfirmation(filename);
         }
 
-        // Download confirmation
+        // Download confirmation notification
         function showDownloadConfirmation(filename) {
             // Create notification element
             const notification = document.createElement('div');
@@ -975,10 +972,4 @@
         });
     </script>
 </body>
-
 </html>
-
-
-
-
-
