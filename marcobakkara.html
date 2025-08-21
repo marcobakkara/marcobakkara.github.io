@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Viewer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #0a0a0a;
+            color: #f0f0f0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #333;
+            padding: 1rem 2rem;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #6200ea;
+            text-decoration: none;
+        }
+
+        .back-button {
+            background: linear-gradient(135deg, #6200ea, #7c4dff);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(98, 0, 234, 0.3);
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(98, 0, 234, 0.4);
+        }
+
+        .main-content {
+            margin-top: 80px;
+            padding: 2rem;
+            min-height: calc(100vh - 80px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .title-section {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .title {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #f0f0f0, #a0a0a0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #a0a0a0;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .document-viewer {
+            background: #1a1a1a;
+            border-radius: 12px;
+            border: 1px solid #333;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .viewer-header {
+            background: #2a2a2a;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .viewer-title {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #f0f0f0;
+        }
+
+        .viewer-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .control-btn {
+            background: #333;
+            border: none;
+            color: #f0f0f0;
+            padding: 0.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .control-btn:hover {
+            background: #444;
+        }
+
+        .viewer-content {
+            height: 70vh;
+            min-height: 500px;
+            background: #ffffff;
+            position: relative;
+            overflow: auto;
+        }
+
+        .document-placeholder {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #666;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .upload-area {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 3rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 2rem;
+        }
+
+        .upload-area:hover {
+            border-color: #6200ea;
+            background: rgba(98, 0, 234, 0.05);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .document-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .document-card {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .document-card:hover {
+            border-color: #6200ea;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(98, 0, 234, 0.2);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #f0f0f0;
+        }
+
+        .card-description {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .viewer-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .viewer-controls {
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            .document-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" class="logo">Marco Bakkara</a>
+        <a href="index.html" class="back-button">← Kembali</a>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="title-section fade-in">
+                <h1 class="title">Marco's Reading Space</h1>
+                <p class="subtitle">I, as Marco, have given you a reading page to get your knowledge from our researches. <br><br>Zoom it to get it full.</p>
+            </div>
+
+            <div class="document-viewer fade-in">
+                <div class="viewer-header">
+                    <div class="viewer-title">Document Preview</div>
+                    <div class="viewer-controls">
+                        <button class="control-btn" onclick="zoomOut()">−</button>
+                        <button class="control-btn" onclick="resetZoom()">100%</button>
+                        <button class="control-btn" onclick="zoomIn()">+</button>
+                        <button class="control-btn" onclick="toggleFullscreen()">⛶</button>
+                    </div>
+                </div>
+                <div class="viewer-content" id="viewerContent">
+                    <div class="document-placeholder">
+                        <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+                            <div class="upload-icon">📄</div>
+                            <h3>Upload Document</h3>
+                            <p>Click here to select a PPTX or DOCX file</p>
+                            <input type="file" id="fileInput" accept=".pptx,.docx" style="display: none;" onchange="handleFileUpload(event)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="document-cards">
+                <div class="document-card fade-in" onclick="loadSampleDocument('Marca - Scalable MoE.docx')">
+                    <div class="card-icon">📋</div>
+                    <h3>Marca - Scalable MoE</h3>
+                    <p>A paper on the MoE (Model of Evaluation) methodology for software engineering</p>
+                </div>
+                <div class="document-card fade-in" onclick="loadSampleDocument('Marca - No Human Intervetion.docx')">
+                    <div class="card-icon">📊</div>
+                    <h3>Marca - No Human Intervetion</h3>
+                    <p>A paper on the No Human Intervetion (NHI) methodology for software engineering</p>
+                </div>
+            </div>
+    </main>
+
+    <script src="multi-docx-viewer.js"></script>
+    <script>
+        let documentViewer;
+
+        function zoomIn() {
+            if (documentViewer) {
+                documentViewer.zoomIn();
+            }
+        }
+
+        function zoomOut() {
+            if (documentViewer) {
+                documentViewer.zoomOut();
+            }
+        }
+
+        function resetZoom() {
+            if (documentViewer) {
+                documentViewer.zoom = 100;
+                documentViewer.applyZoom();
+                documentViewer.updateZoomDisplay();
+            }
+        }
+
+        function toggleFullscreen() {
+            if (documentViewer) {
+                documentViewer.toggleFullscreen();
+            }
+        }
+
+        function handleFileUpload(event) {
+            // Not needed for this version
+        }
+
+        function loadSampleDocument(filename) {
+            // Load the selected document in real-time
+            if (documentViewer) {
+                documentViewer.loadDocument(filename);
+            }
+        }
+
+        // Initialize the document viewer when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize multi-document viewer
+            documentViewer = new MultiDocxViewer('viewerContent');
+            
+            // Add fade-in animation to elements
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach((el, index) => {
+                el.style.animationDelay = `${index * 0.1}s`;
+            });
+            
+            // Update the viewer content to use the new document viewer
+            const viewerContent = document.getElementById('viewerContent');
+            viewerContent.style.background = 'transparent';
+            viewerContent.style.height = '70vh';
+            viewerContent.style.minHeight = '500px';
+        });
+    </script>
+</body>
+</html>
+
