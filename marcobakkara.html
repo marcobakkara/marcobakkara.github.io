@@ -131,6 +131,11 @@
             cursor: pointer;
             transition: background 0.2s ease;
             font-size: 0.9rem;
+            min-width: 40px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .control-btn:hover {
@@ -229,6 +234,23 @@
                 justify-content: flex-end;
             }
 
+            .viewer-content {
+                overflow-x: auto;
+                overflow-y: auto;
+            }
+
+            .viewer-content * {
+                max-width: 100% !important;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+
+            .viewer-content img {
+                max-width: 100% !important;
+                height: auto !important;
+                object-fit: contain;
+            }
+
             .document-grid {
                 grid-template-columns: 1fr;
             }
@@ -297,8 +319,8 @@
                     <p>A paper on the No Human Intervetion (NHI) methodology for software engineering</p>
                 </div>
             </div>
+        </div>
     </main>
-
     <script src="multi-docx-viewer.js"></script>
     <script>
         let documentViewer;
@@ -360,4 +382,3 @@
     </script>
 </body>
 </html>
-
