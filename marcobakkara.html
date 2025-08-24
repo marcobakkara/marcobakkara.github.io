@@ -23,6 +23,10 @@
             --accent: #ffffff;
             --border: #1f1f1f;
             --hover: #171717;
+            --gradient-purple: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-blue: linear-gradient(135deg, #00c9ff 0%, #92fe9d 100%);
+            --gradient-orange: linear-gradient(135deg, #fc466b 0%, #3f5efb 100%);
+            --gradient-green: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
         }
 
         body {
@@ -299,102 +303,6 @@
             margin-bottom: 6rem;
         }
 
-        /* Quotes section */
-        .quotes-section {
-            margin-bottom: 4rem;
-        }
-
-        .quotes-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 2rem;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 0.8s ease 1s forwards;
-        }
-
-        .quote-card {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 2rem;
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .quote-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, var(--text-primary), var(--text-muted));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.6s ease;
-        }
-
-        .quote-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .quote-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--text-muted);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .quote-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .quote-icon {
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-            opacity: 0.7;
-        }
-
-        .quote-text {
-            font-size: 1.25rem;
-            font-weight: 400;
-            line-height: 1.6;
-            color: var(--text-primary);
-            margin-bottom: 2rem;
-            font-style: italic;
-            position: relative;
-        }
-
-        .quote-author {
-            border-top: 1px solid var(--border);
-            padding-top: 1.5rem;
-        }
-
-        .author-name {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 0.25rem;
-            letter-spacing: 0.02em;
-        }
-
-        .author-info {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            letter-spacing: 0.05em;
-        }
-
-        .socrates {
-            border-left: 3px solid #3b82f6;
-        }
-
-        .aristotle {
-            border-left: 3px solid #10b981;
-        }
-
         .albums-container {
             position: relative;
             opacity: 0;
@@ -503,6 +411,125 @@
             transform: scale(1.1);
         }
 
+        /* Quotes section */
+        .quotes-section {
+            margin-bottom: 4rem;
+        }
+
+        .quotes-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease 1s forwards;
+        }
+
+        .quote-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quote-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.6s ease;
+        }
+
+        .quote-card.socrates::before {
+            background: var(--gradient-blue);
+        }
+
+        .quote-card.aristotle::before {
+            background: var(--gradient-green);
+        }
+
+        .quote-card.confucius::before {
+            background: var(--gradient-purple);
+        }
+
+        .quote-card.buddha::before {
+            background: var(--gradient-orange);
+        }
+
+        .quote-card.plato::before {
+            background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+        }
+
+        .quote-card.laozi::before {
+            background: linear-gradient(135deg, #a8e6cf 0%, #ff8b94 100%);
+        }
+
+        .quote-card.marcus::before {
+            background: linear-gradient(135deg, #3d5a80 0%, #ee6c4d 100%);
+        }
+
+        .quote-card.rumi::before {
+            background: linear-gradient(135deg, #9b59b6 0%, #e74c3c 100%);
+        }
+
+        .quote-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .quote-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--text-muted);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .quote-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .quote-icon {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            opacity: 0.7;
+        }
+
+        .quote-text {
+            font-size: 1.1rem;
+            font-weight: 400;
+            line-height: 1.6;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+            font-style: italic;
+            position: relative;
+        }
+
+        .quote-author {
+            border-top: 1px solid var(--border);
+            padding-top: 1.5rem;
+        }
+
+        .author-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+            letter-spacing: 0.02em;
+        }
+
+        .author-info {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+        }
+
         /* Animations */
         @keyframes fadeInUp {
             to {
@@ -512,6 +539,17 @@
         }
 
         /* Responsive Design */
+        @media (max-width: 1024px) {
+            .quotes-container {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .posts-grid {
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            }
+        }
+
         @media (max-width: 768px) {
             .back-button {
                 top: 1.5rem;
@@ -522,6 +560,10 @@
 
             .container {
                 padding: 5rem 1rem 3rem;
+            }
+
+            .page-header {
+                margin-bottom: 3rem;
             }
 
             .posts-grid {
@@ -545,6 +587,33 @@
             .section-title {
                 margin-bottom: 2rem;
             }
+
+            /* Mobile-specific quotes styling */
+            .quotes-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .quote-card {
+                padding: 1.5rem;
+            }
+
+            .quote-text {
+                font-size: 1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .quote-author {
+                padding-top: 1rem;
+            }
+
+            .author-name {
+                font-size: 0.8rem;
+            }
+
+            .author-info {
+                font-size: 0.7rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -552,18 +621,28 @@
                 top: 1rem;
                 left: 1rem;
                 padding: 0.5rem 0.75rem;
+                font-size: 0.8rem;
+                gap: 0.25rem;
             }
 
             .container {
-                padding: 4rem 1rem 2rem;
+                padding: 4rem 0.75rem 2rem;
             }
 
             .page-header {
-                margin-bottom: 3rem;
+                margin-bottom: 2.5rem;
             }
 
             .posts-section {
                 margin-bottom: 4rem;
+            }
+
+            .albums-section {
+                margin-bottom: 4rem;
+            }
+
+            .quotes-section {
+                margin-bottom: 3rem;
             }
 
             .album-card {
@@ -574,12 +653,68 @@
             .album-content {
                 padding: 1rem;
             }
+
+            /* Ultra mobile quotes styling */
+            .quote-card {
+                padding: 1.25rem;
+                border-radius: 8px;
+            }
+
+            .quote-text {
+                font-size: 0.95rem;
+                line-height: 1.5;
+                margin-bottom: 1.25rem;
+            }
+
+            .quote-icon {
+                margin-bottom: 1rem;
+            }
+
+            .quote-icon svg {
+                width: 20px;
+                height: 20px;
+            }
+
+            .author-name {
+                font-size: 0.75rem;
+            }
+
+            .author-info {
+                font-size: 0.65rem;
+            }
+
+            .page-subtitle {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 0.75rem;
+                margin-bottom: 1.5rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .container {
+                padding: 3.5rem 0.5rem 1.5rem;
+            }
+
+            .quote-card {
+                padding: 1rem;
+            }
+
+            .quote-text {
+                font-size: 0.9rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Floating back button -->
-    <a href="index.html" class="back-button">
+    <a href="index.html?posts=homepage&type=dekstop/10002408250001" class="back-button">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M19 12H5M12 19l-7-7 7-7"/>
         </svg>
@@ -767,7 +902,7 @@
 
         <!-- Quotes section -->
         <section class="quotes-section">
-            <h2 class="section-title">Wisdom from the Ancients</h2>
+            <h2 class="section-title">Wisdom from Great Minds</h2>
             <div class="quotes-container">
                 <div class="quote-card socrates">
                     <div class="quote-content">
@@ -796,83 +931,119 @@
                             </svg>
                         </div>
                         <blockquote class="quote-text">
-                            Knowing yourself is the beginning of all wisdom.
-                        </blockquote>
-                        <div class="quote-author">
-                            <div class="author-name">Aristotle</div>
-                            <div class="author-info">Greek Philosopher (384-322 BC)</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="quote-card socrates">
-                    <div class="quote-content">
-                        <div class="quote-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
-                                <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
-                            </svg>
-                        </div>
-                        <blockquote class="quote-text">
-                            The unexamined life is not worth living.
-                        </blockquote>
-                        <div class="quote-author">
-                            <div class="author-name">Socrates</div>
-                            <div class="author-info">Greek Philosopher (469-399 BC)</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="quote-card aristotle">
-                    <div class="quote-content">
-                        <div class="quote-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
-                                <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
-                            </svg>
-                        </div>
-                        <blockquote class="quote-text">
-                            It is the mark of an educated mind to be able to entertain a thought without accepting it.
-                        </blockquote>
-                        <div class="quote-author">
-                            <div class="author-name">Aristotle</div>
-                            <div class="author-info">Greek Philosopher (384-322 BC)</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="quote-card socrates">
-                    <div class="quote-content">
-                        <div class="quote-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
-                                <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
-                            </svg>
-                        </div>
-                        <blockquote class="quote-text">
-                            Be kind, for everyone you meet is fighting a hard battle.
-                        </blockquote>
-                        <div class="quote-author">
-                            <div class="author-name">Socrates</div>
-                            <div class="author-info">Greek Philosopher (469-399 BC)</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="quote-card aristotle">
-                    <div class="quote-content">
-                        <div class="quote-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
-                                <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
-                            </svg>
-                        </div>
-                        <blockquote class="quote-text">
                             Excellence is an art won by training and habituation.
                         </blockquote>
                         <div class="quote-author">
                             <div class="author-name">Aristotle</div>
                             <div class="author-info">Greek Philosopher (384-322 BC)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quote-card confucius">
+                    <div class="quote-content">
+                        <div class="quote-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
+                                <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
+                            </svg>
+                        </div>
+                        <blockquote class="quote-text">
+                            It does not matter how slowly you go as long as you do not stop.
+                        </blockquote>
+                        <div class="quote-author">
+                            <div class="author-name">Confucius</div>
+                            <div class="author-info">Chinese Philosopher (551-479 BC)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quote-card buddha">
+                    <div class="quote-content">
+                        <div class="quote-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
+                                <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
+                            </svg>
+                        </div>
+                        <blockquote class="quote-text">
+                            The mind is everything. What you think you become.
+                        </blockquote>
+                        <div class="quote-author">
+                            <div class="author-name">Buddha</div>
+                            <div class="author-info">Spiritual Teacher (563-483 BC)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quote-card plato">
+                    <div class="quote-content">
+                        <div class="quote-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
+                                <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
+                            </svg>
+                        </div>
+                        <blockquote class="quote-text">
+                            Wise men speak because they have something to say; fools because they have to say something.
+                        </blockquote>
+                        <div class="quote-author">
+                            <div class="author-name">Plato</div>
+                            <div class="author-info">Greek Philosopher (428-348 BC)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quote-card laozi">
+                    <div class="quote-content">
+                        <div class="quote-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
+                                <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
+                            </svg>
+                        </div>
+                        <blockquote class="quote-text">
+                            A journey of a thousand miles begins with a single step.
+                        </blockquote>
+                        <div class="quote-author">
+                            <div class="author-name">Lao Zi</div>
+                            <div class="author-info">Chinese Philosopher (6th Century BC)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quote-card marcus">
+                    <div class="quote-content">
+                        <div class="quote-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
+                                <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
+                            </svg>
+                        </div>
+                        <blockquote class="quote-text">
+                            You have power over your mind - not outside events. Realize this, and you will find strength.
+                        </blockquote>
+                        <div class="quote-author">
+                            <div class="author-name">Marcus Aurelius</div>
+                            <div class="author-info">Roman Emperor & Philosopher (121-180 AD)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quote-card rumi">
+                    <div class="quote-content">
+                        <div class="quote-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
+                                <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
+                            </svg>
+                        </div>
+                        <blockquote class="quote-text">
+                            Let yourself be silently drawn by the strange pull of what you really love. It will not lead you astray.
+                        </blockquote>
+                        <div class="quote-author">
+                            <div class="author-name">Rumi</div>
+                            <div class="author-info">Persian Poet & Mystic (1207-1273 AD)</div>
                         </div>
                     </div>
                 </div>
@@ -939,16 +1110,6 @@
                 });
             }
         });
-
-        // Post click handler
-        function openPost(postId) {
-            // Removed - now using anchor links
-        }
-
-        // Album click handler
-        function openAlbum(albumId) {
-            // Removed - now using anchor links
-        }
 
         // Touch/swipe support for mobile
         let isDown = false;

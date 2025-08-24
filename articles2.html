@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="articleTitle">Article - Marco Julius Andreas</title>
+    <title id="articleTitle">The Art of Clean Code - Marco Julius Andreas</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&display=swap');
@@ -477,82 +477,126 @@
         <!-- Article header -->
         <header class="article-header">
             <div class="article-meta">
-                <time id="articleDate">Aug 15, 2025</time>
-                <span class="reading-time" id="readingTime">5 min read</span>
+                <time id="articleDate">Aug 10, 2025</time>
+                <span class="reading-time" id="readingTime">4 min read</span>
             </div>
-            <h1 class="article-title" id="mainTitle">Getting Started with Modern Web Development</h1>
+            <h1 class="article-title" id="mainTitle">The Art of Clean Code</h1>
             <p class="article-excerpt" id="articleExcerpt">
-                Exploring the latest trends and technologies that are shaping the future of web development in 2025. From new frameworks to emerging best practices.
+                Why writing maintainable and readable code is more important than clever solutions. Learn the principles that make code truly clean and professional.
             </p>
         </header>
 
         <!-- Featured image -->
         <div class="article-image">
             <div class="image-container">
-                <img id="featuredImage" src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=675&fit=crop" alt="Modern web development">
+                <img id="featuredImage" src="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=1200&h=675&fit=crop" alt="Clean code principles">
             </div>
-            <p class="image-caption">Modern web development tools and technologies</p>
+            <p class="image-caption">The art and science of writing clean, maintainable code</p>
         </div>
 
         <!-- Article content -->
         <div class="article-content" id="articleBody">
-            <p>The landscape of web development continues to evolve at a rapid pace, with new technologies, frameworks, and methodologies emerging regularly. As we navigate through 2025, it's crucial for developers to stay current with the latest trends while maintaining a solid foundation in core principles.</p>
+            <p>Writing clean code is an art form that separates good developers from great ones. It's not about showing off your programming prowess with complex one-liners or clever tricks. Instead, it's about crafting code that tells a story, code that future developers (including yourself) will thank you for.</p>
 
-            <h2>The Current State of Web Development</h2>
-            <p>Modern web development has become increasingly sophisticated, with developers now having access to powerful tools and frameworks that can significantly speed up the development process. The focus has shifted from just creating functional websites to building comprehensive digital experiences that are fast, accessible, and user-friendly.</p>
+            <h2>What Makes Code Clean?</h2>
+            <p>Clean code is characterized by several key attributes that make it both maintainable and understandable. At its core, clean code should be readable like well-written prose, simple in its approach to solving problems, consistent in its patterns and conventions, and intentional in every line written.</p>
 
-            <p>One of the most significant changes we've seen is the rise of component-based architectures. Frameworks like React, Vue.js, and Angular have revolutionized how we think about building user interfaces, promoting reusability and maintainability.</p>
-
-            <h3>Key Technologies to Watch</h3>
-            <p>Several technologies are particularly worth paying attention to as we move forward:</p>
-
-            <ul>
-                <li><strong>Next.js and Server-Side Rendering:</strong> The ability to render content on the server for better SEO and performance</li>
-                <li><strong>Tailwind CSS:</strong> Utility-first CSS framework that's changing how we approach styling</li>
-                <li><strong>TypeScript:</strong> Adding type safety to JavaScript for more robust applications</li>
-                <li><strong>JAMstack Architecture:</strong> JavaScript, APIs, and Markup for modern web development</li>
-            </ul>
-
-            <h2>Building for Performance</h2>
-            <p>Performance optimization has become more critical than ever. Users expect fast, responsive websites, and search engines reward sites that load quickly. This means developers need to be mindful of:</p>
+            <p>The hallmarks of clean code include meaningful variable and function names that reveal intent, functions that do one thing and do it well, consistent formatting and style throughout the codebase, and minimal comments that explain the "why" rather than the "what".</p>
 
             <blockquote>
-                "Performance is not just about fast loading times; it's about creating seamless user experiences that keep visitors engaged and coming back."
+                "Any fool can write code that a computer can understand. Good programmers write code that humans can understand." - Martin Fowler
             </blockquote>
 
-            <p>Key performance considerations include code splitting and lazy loading, image optimization and modern formats, efficient bundle management, and caching strategies.</p>
+            <h3>Naming Things Well</h3>
+            <p>One of the hardest aspects of programming is naming. Good names reveal intent and make code self-documenting. Consider the difference between cryptic abbreviations and descriptive names:</p>
 
-            <h3>The Importance of Accessibility</h3>
-            <p>Web accessibility isn't just a nice-to-have feature—it's essential. Building accessible websites ensures that all users, regardless of their abilities, can interact with your content effectively. This includes proper semantic HTML structure, keyboard navigation support, screen reader compatibility, and color contrast considerations.</p>
+            <pre><code>// Bad - unclear and cryptic
+const d = new Date();
+const u = users.filter(u => u.a > 18);
 
-            <h2>Looking Ahead</h2>
-            <p>As we continue through 2025, the web development landscape will undoubtedly continue to evolve. The key to success lies in maintaining a balance between adopting new technologies and mastering fundamental principles.</p>
+// Good - clear and descriptive
+const currentDate = new Date();
+const adultUsers = users.filter(user => user.age > 18);</code></pre>
 
-            <p>Whether you're just starting your journey in web development or you're a seasoned professional, staying curious and committed to continuous learning will serve you well in this dynamic field.</p>
+            <p>When naming variables, functions, and classes, choose names that clearly express what the entity represents or does. Avoid mental mapping where readers need to remember what abbreviated variables mean.</p>
 
-            <pre><code>// Example: Modern JavaScript with async/await
+            <h2>Functions Should Do One Thing</h2>
+            <p>The Single Responsibility Principle isn't just for classes—it applies to functions too. Each function should have one clear responsibility and execute it well. This makes your code more modular, testable, and easier to understand.</p>
+
+            <p>Small functions are easier to test, understand, and reuse. They also make your code more flexible and maintainable. When a function tries to do too many things, it becomes difficult to debug and modify without affecting other functionality.</p>
+
+            <pre><code>// Bad - function doing too many things
+function processUserData(userData) {
+    // validate data
+    if (!userData.email || !userData.name) return false;
+    
+    // format data
+    userData.name = userData.name.trim().toLowerCase();
+    
+    // save to database
+    database.save(userData);
+    
+    // send welcome email
+    emailService.sendWelcome(userData.email);
+    
+    return true;
+}</code></pre>
+
+            <p>A better approach would be to split this into separate functions: <code>validateUserData()</code>, <code>formatUserData()</code>, <code>saveUser()</code>, and <code>sendWelcomeEmail()</code>.</p>
+
+            <h3>Comments: When and Why</h3>
+            <p>Comments should explain <em>why</em> something is done, not <em>what</em> is being done. If you need comments to explain what your code does, consider refactoring for clarity instead. The code should be self-explanatory through good naming and structure.</p>
+
+            <p>Good comments explain business rules, warn about consequences, provide context that isn't obvious from the code itself, or explain complex algorithms. Bad comments simply restate what the code obviously does.</p>
+
+            <h2>Consistency is Key</h2>
+            <p>Consistent formatting, naming conventions, and code organization make your codebase feel cohesive and professional. Whether you prefer spaces or tabs, camelCase or snake_case, the important thing is to be consistent throughout your project.</p>
+
+            <p>Use tools like prettier, ESLint, or similar formatters for your language to automatically enforce consistency. This removes the cognitive load of making formatting decisions and ensures everyone on your team follows the same standards.</p>
+
+            <h3>Error Handling Done Right</h3>
+            <p>Clean code handles errors gracefully and predictably. Don't ignore exceptions or return cryptic error codes. Use proper exception handling mechanisms and provide meaningful error messages that help developers understand what went wrong and how to fix it.</p>
+
+            <pre><code>// Good error handling
 const fetchUserData = async (userId) => {
-  try {
-    const response = await fetch(`/api/users/${userId}`);
-    const userData = await response.json();
-    return userData;
-  } catch (error) {
-    console.error('Error fetching user data:', error);
-    throw error;
-  }
+    try {
+        const response = await fetch(`/api/users/${userId}`);
+        
+        if (!response.ok) {
+            throw new Error(`Failed to fetch user: ${response.statusText}`);
+        }
+        
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        throw new Error('Unable to retrieve user information');
+    }
 };</code></pre>
 
-            <p>The future of web development is bright, filled with exciting possibilities and innovations that will continue to shape how we build and interact with digital experiences.</p>
+            <h2>The Boy Scout Rule</h2>
+            <p>Leave the codebase cleaner than you found it. This simple rule, when followed by everyone on a team, ensures continuous improvement of code quality over time. If you see poorly named variables, refactor them. If you notice duplicated code, extract it into a reusable function.</p>
+
+            <p>Small, incremental improvements compound over time, leading to a significantly cleaner and more maintainable codebase. Don't wait for a major refactoring effort—make improvements as you work with the code day by day.</p>
+
+            <h3>Testing and Clean Code Go Hand in Hand</h3>
+            <p>Clean code is testable code. If your functions are small, focused, and have clear inputs and outputs, they're naturally easier to test. Conversely, writing tests often forces you to write cleaner code by highlighting dependencies and coupling issues.</p>
+
+            <p>Test-driven development (TDD) can be a powerful tool for writing clean code, as it encourages you to think about the interface and behavior of your code before implementation details.</p>
+
+            <h2>The Long-Term Benefits</h2>
+            <p>Writing clean code might feel slower initially, but it pays dividends in the long run. Clean code is easier to debug, extend, and maintain. It reduces the time needed to understand existing code when adding new features or fixing bugs.</p>
+
+            <p>Remember, code is read far more often than it's written. Investing time in making your code readable and maintainable is an investment in the future productivity of your team and the success of your project.</p>
         </div>
 
         <!-- Article footer -->
         <footer class="article-footer">
             <div class="tags">
-                <a href="#" class="tag">Web Development</a>
-                <a href="#" class="tag">JavaScript</a>
-                <a href="#" class="tag">Frontend</a>
-                <a href="#" class="tag">Technology</a>
+                <a href="#" class="tag">Clean Code</a>
+                <a href="#" class="tag">Best Practices</a>
                 <a href="#" class="tag">Programming</a>
+                <a href="#" class="tag">Software Engineering</a>
+                <a href="#" class="tag">Code Quality</a>
             </div>
 
             <div class="share-section">
@@ -579,13 +623,13 @@ const fetchUserData = async (userId) => {
 
             <!-- Navigation to other articles -->
             <nav class="article-navigation">
-                <a href="articles2.html?post=article1-2025&type=dekstop/10002408250001" class="nav-link prev">
+                <a href="articles1.html?post=article1-2025&type=dekstop/10002408250001" class="nav-link prev">
                     <div class="nav-label">Previous</div>
-                    <div class="nav-title">The Art of Clean Code</div>
+                    <div class="nav-title">Getting Started with Modern Web Development</div>
                 </a>
                 <a href="#" class="nav-link next">
                     <div class="nav-label">Next</div>
-                    <div class="nav-title">My Programming Journey</div>
+                    <div class="nav-title">My Journey as a Programming Student</div>
                 </a>
             </nav>
         </footer>
