@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="articleTitle">Article - Marco Julius Andreas</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --text-primary: #ffffff;
+            --text-secondary: #a3a3a3;
+            --text-muted: #525252;
+            --accent: #ffffff;
+            --border: #1f1f1f;
+            --hover: #171717;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Subtle grid background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Floating back button */
+        .back-button {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            z-index: 1000;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 0.75rem 1.25rem;
+            background: rgba(17, 17, 17, 0.8);
+            backdrop-filter: saturate(180%) blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0.8;
+        }
+
+        .back-button:hover {
+            opacity: 1;
+            transform: translateX(-3px);
+            background: rgba(17, 17, 17, 0.95);
+            border-color: var(--text-muted);
+        }
+
+        .back-button svg {
+            transition: transform 0.3s ease;
+        }
+
+        .back-button:hover svg {
+            transform: translateX(-2px);
+        }
+
+        /* Main container */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 6rem 2rem 4rem;
+        }
+
+        /* Article header */
+        .article-header {
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease 0.2s forwards;
+        }
+
+        .article-meta {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .reading-time {
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .reading-time::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--text-muted);
+        }
+
+        .article-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 300;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .article-excerpt {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        /* Featured image */
+        .article-image {
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease 0.4s forwards;
+        }
+
+        .image-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .article-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) contrast(1.1);
+            transition: filter 0.6s ease;
+        }
+
+        .image-container:hover img {
+            filter: grayscale(80%) contrast(1.2);
+        }
+
+        .image-caption {
+            margin-top: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-align: center;
+            letter-spacing: 0.02em;
+        }
+
+        /* Article content */
+        .article-content {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease 0.6s forwards;
+        }
+
+        .article-content h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            line-height: 1.3;
+            margin: 3rem 0 1.5rem;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+        }
+
+        .article-content h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            line-height: 1.4;
+            margin: 2.5rem 0 1rem;
+            color: var(--text-primary);
+        }
+
+        .article-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .article-content blockquote {
+            margin: 2rem 0;
+            padding: 1.5rem 2rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--text-primary);
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: var(--text-primary);
+        }
+
+        .article-content code {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+            border: 1px solid var(--border);
+        }
+
+        .article-content pre {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .article-content ul, 
+        .article-content ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        /* Article footer */
+        .article-footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease 0.8s forwards;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .tag {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.02em;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            background: var(--hover);
+            color: var(--text-primary);
+            border-color: var(--text-muted);
+        }
+
+        .share-section {
+            text-align: center;
+        }
+
+        .share-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .share-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .share-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .share-btn:hover {
+            background: var(--hover);
+            border-color: var(--text-muted);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        /* Navigation */
+        .article-navigation {
+            margin-top: 3rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            display: block;
+            text-decoration: none;
+            color: var(--text-secondary);
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: var(--hover);
+            border-color: var(--text-muted);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        .nav-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-title {
+            font-size: 1rem;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .nav-link.next {
+            text-align: right;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .back-button {
+                top: 1.5rem;
+                left: 1.5rem;
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+
+            .container {
+                padding: 5rem 1rem 3rem;
+            }
+
+            .article-navigation {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .nav-link.next {
+                text-align: left;
+            }
+
+            .share-buttons {
+                gap: 0.75rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .back-button {
+                top: 1rem;
+                left: 1rem;
+                padding: 0.5rem 0.75rem;
+            }
+
+            .container {
+                padding: 4rem 1rem 2rem;
+            }
+
+            .article-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .reading-time::before {
+                display: none;
+            }
+
+            .reading-time {
+                padding-left: 0;
+            }
+
+            .tags {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating back button -->
+    <a href="o.html" class="back-button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Back to Journal
+    </a>
+
+    <article class="container">
+        <!-- Article header -->
+        <header class="article-header">
+            <div class="article-meta">
+                <time id="articleDate">Jan 15, 2025</time>
+                <span class="reading-time" id="readingTime">5 min read</span>
+            </div>
+            <h1 class="article-title" id="mainTitle">Getting Started with Modern Web Development</h1>
+            <p class="article-excerpt" id="articleExcerpt">
+                Exploring the latest trends and technologies that are shaping the future of web development in 2025. From new frameworks to emerging best practices.
+            </p>
+        </header>
+
+        <!-- Featured image -->
+        <div class="article-image">
+            <div class="image-container">
+                <img id="featuredImage" src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=675&fit=crop" alt="Modern web development">
+            </div>
+            <p class="image-caption">Modern web development tools and technologies</p>
+        </div>
+
+        <!-- Article content -->
+        <div class="article-content" id="articleBody">
+            <p>The landscape of web development continues to evolve at a rapid pace, with new technologies, frameworks, and methodologies emerging regularly. As we navigate through 2025, it's crucial for developers to stay current with the latest trends while maintaining a solid foundation in core principles.</p>
+
+            <h2>The Current State of Web Development</h2>
+            <p>Modern web development has become increasingly sophisticated, with developers now having access to powerful tools and frameworks that can significantly speed up the development process. The focus has shifted from just creating functional websites to building comprehensive digital experiences that are fast, accessible, and user-friendly.</p>
+
+            <p>One of the most significant changes we've seen is the rise of component-based architectures. Frameworks like React, Vue.js, and Angular have revolutionized how we think about building user interfaces, promoting reusability and maintainability.</p>
+
+            <h3>Key Technologies to Watch</h3>
+            <p>Several technologies are particularly worth paying attention to as we move forward:</p>
+
+            <ul>
+                <li><strong>Next.js and Server-Side Rendering:</strong> The ability to render content on the server for better SEO and performance</li>
+                <li><strong>Tailwind CSS:</strong> Utility-first CSS framework that's changing how we approach styling</li>
+                <li><strong>TypeScript:</strong> Adding type safety to JavaScript for more robust applications</li>
+                <li><strong>JAMstack Architecture:</strong> JavaScript, APIs, and Markup for modern web development</li>
+            </ul>
+
+            <h2>Building for Performance</h2>
+            <p>Performance optimization has become more critical than ever. Users expect fast, responsive websites, and search engines reward sites that load quickly. This means developers need to be mindful of:</p>
+
+            <blockquote>
+                "Performance is not just about fast loading times; it's about creating seamless user experiences that keep visitors engaged and coming back."
+            </blockquote>
+
+            <p>Key performance considerations include:</p>
+            <ul>
+                <li>Code splitting and lazy loading</li>
+                <li>Image optimization and modern formats</li>
+                <li>Efficient bundle management</li>
+                <li>Caching strategies</li>
+            </ul>
+
+            <h3>The Importance of Accessibility</h3>
+            <p>Web accessibility isn't just a nice-to-have feature—it's essential. Building accessible websites ensures that all users, regardless of their abilities, can interact with your content effectively. This includes:</p>
+
+            <ul>
+                <li>Proper semantic HTML structure</li>
+                <li>Keyboard navigation support</li>
+                <li>Screen reader compatibility</li>
+                <li>Color contrast considerations</li>
+            </ul>
+
+            <h2>Looking Ahead</h2>
+            <p>As we continue through 2025, the web development landscape will undoubtedly continue to evolve. The key to success lies in maintaining a balance between adopting new technologies and mastering fundamental principles.</p>
+
+            <p>Whether you're just starting your journey in web development or you're a seasoned professional, staying curious and committed to continuous learning will serve you well in this dynamic field.</p>
+
+            <pre><code>// Example: Modern JavaScript with async/await
+const fetchUserData = async (userId) => {
+  try {
+    const response = await fetch(`/api/users/${userId}`);
+    const userData = await response.json();
+    return userData;
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+    throw error;
+  }
+};</code></pre>
+
+            <p>The future of web development is bright, filled with exciting possibilities and innovations that will continue to shape how we build and interact with digital experiences.</p>
+        </div>
+
+        <!-- Article footer -->
+        <footer class="article-footer">
+            <div class="tags">
+                <a href="#" class="tag">Web Development</a>
+                <a href="#" class="tag">JavaScript</a>
+                <a href="#" class="tag">Frontend</a>
+                <a href="#" class="tag">Technology</a>
+                <a href="#" class="tag">Programming</a>
+            </div>
+
+            <div class="share-section">
+                <h3 class="share-title">Share this article</h3>
+                <div class="share-buttons">
+                    <a href="#" class="share-btn" title="Share on Twitter">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="share-btn" title="Share on LinkedIn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="share-btn" title="Copy link">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Navigation to other articles -->
+            <nav class="article-navigation">
+                <a href="article.html?post=post6" class="nav-link prev">
+                    <div class="nav-label">Previous</div>
+                    <div class="nav-title">The Future of Technology</div>
+                </a>
+                <a href="article.html?post=post2" class="nav-link next">
+                    <div class="nav-label">Next</div>
+                    <div class="nav-title">The Art of Clean Code</div>
+                </a>
+            </nav>
+        </footer>
+    </article>
+
+    <script>
+        // Article data
+        const articles = {
+            post1: {
+                title: "Getting Started with Modern Web Development",
+                date: "Jan 15, 2025",
+                readTime: "5 min read",
+                excerpt: "Exploring the latest trends and technologies that are shaping the future of web development in 2025. From new frameworks to emerging best practices.",
+                image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=675&fit=crop",
+                tags: ["Web Development", "JavaScript", "Frontend", "Technology", "Programming"],
+                content: `
+                    <p>The landscape of web development continues to evolve at a rapid pace, with new technologies, frameworks, and methodologies emerging regularly. As we navigate through 2025, it's crucial for developers to stay current with the latest trends while maintaining a solid foundation in core principles.</p>
+
+                    <h2>The Current State of Web Development</h2>
+                    <p>Modern web development has become increasingly sophisticated, with developers now having access to powerful tools and frameworks that can significantly speed up the development process. The focus has shifted from just creating functional websites to building comprehensive digital experiences that are fast, accessible, and user-friendly.</p>
+
+                    <p>One of the most significant changes we've seen is the rise of component-based architectures. Frameworks like React, Vue.js, and Angular have revolutionized how we think about building user interfaces, promoting reusability and maintainability.</p>
+
+                    <h3>Key Technologies to Watch</h3>
+                    <p>Several technologies are particularly worth paying attention to as we move forward:</p>
+
+                    <ul>
+                        <li><strong>Next.js and Server-Side Rendering:</strong> The ability to render content on the server for better SEO and performance</li>
+                        <li><strong>Tailwind CSS:</strong> Utility-first CSS framework that's changing how we approach styling</li>
+                        <li><strong>TypeScript:</strong> Adding type safety to JavaScript for more robust applications</li>
+                        <li><strong>JAMstack Architecture:</strong> JavaScript, APIs, and Markup for modern web development</li>
+                    </ul>
+
+                    <h2>Building for Performance</h2>
+                    <p>Performance optimization has become more critical than ever. Users expect fast, responsive websites, and search engines reward sites that load quickly. This means developers need to be mindful of:</p>
+
+                    <blockquote>
+                        "Performance is not just about fast loading times; it's about creating seamless user experiences that keep visitors engaged and coming back."
+                    </blockquote>
+
+                    <p>Key performance considerations include:</p>
+                    <ul>
+                        <li>Code splitting and lazy loading</li>
+                        <li>Image optimization and modern formats</li>
+                        <li>Efficient bundle management</li>
+                        <li>Caching strategies</li>
+                    </ul>
+
+                    <h3>The Importance of Accessibility</h3>
+                    <p>Web accessibility isn't just a nice-to-have feature—it's essential. Building accessible websites ensures that all users, regardless of their abilities, can interact with your content effectively. This includes:</p>
+
+                    <ul>
+                        <li>Proper semantic HTML structure</li>
+                        <li>Keyboard navigation support</li>
+                        <li>Screen reader compatibility</li>
+                        <li>Color contrast considerations</li>
+                    </ul>
+
+                    <h2>Looking Ahead</h2>
+                    <p>As we continue through 2025, the web development landscape will undoubtedly continue to evolve. The key to success lies in maintaining a balance between adopting new technologies and mastering fundamental principles.</p>
+
+                    <p>Whether you're just starting your journey in web development or you're a seasoned professional, staying curious and committed to continuous learning will serve you well in this dynamic field.</p>
+
+                    <pre><code>// Example: Modern JavaScript with async/await
+const fetchUserData = async (userId) => {
+  try {
+    const response = await fetch(\`/api/users/\${userId}\`);
+    const userData = await response.json();
+    return userData;
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+    throw error;
+  }
+};</code></pre>
+
+                    <p>The future of web development is bright, filled with exciting possibilities and innovations that will continue to shape how we build and interact with digital experiences.</p>
+                `
+            },
+            post2: {
+                title: "The Art of Clean Code",
+                date: "Jan 10, 2025",
+                readTime: "4 min read",
+                excerpt: "Why writing maintainable and readable code is more important than clever solutions. Learn the principles that make code truly clean and professional.",
+                image: "https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=1200&h=675&fit=crop",
+                tags: ["Clean Code", "Best Practices", "Programming", "Software Engineering"],
+                content: `
+                    <p>Writing clean code is an art form that separates good developers from great ones. It's not about showing off your programming prowess with complex one-liners or clever tricks. Instead, it's about crafting code that tells a story, code that future developers (including yourself) will thank you for.</p>
+
+                    <h2>What Makes Code Clean?</h2>
+                    <p>Clean code is characterized by several key attributes that make it both maintainable and understandable:</p>
+
+                    <ul>
+                        <li><strong>Readability:</strong> Code should read like well-written prose</li>
+                        <li><strong>Simplicity:</strong> Favor simple solutions over complex ones</li>
+                        <li><strong>Consistency:</strong> Follow established patterns and conventions</li>
+                        <li><strong>Intentional:</strong> Every line should have a clear purpose</li>
+                    </ul>
+
+                    <blockquote>
+                        "Any fool can write code that a computer can understand. Good programmers write code that humans can understand." - Martin Fowler
+                    </blockquote>
+
+                    <h3>Naming Things Well</h3>
+                    <p>One of the hardest aspects of programming is naming. Good names reveal intent and make code self-documenting:</p>
+
+                    <pre><code>// Bad
+const d = new Date();
+const u = users.filter(u => u.a > 18);
+
+// Good  
+const currentDate = new Date();
+const adultUsers = users.filter(user => user.age > 18);</code></pre>
+
+                    <h2>Functions Should Do One Thing</h2>
+                    <p>The Single Responsibility Principle isn't just for classes—it applies to functions too. Each function should have one clear responsibility and do it well.</p>
+
+                    <p>Small functions are easier to test, understand, and reuse. They also make your code more modular and flexible.</p>
+
+                    <h3>Comments: When and Why</h3>
+                    <p>Comments should explain <em>why</em> something is done, not <em>what</em> is being done. If you need comments to explain what your code does, consider refactoring for clarity instead.</p>
+
+                    <p>Good comments explain business rules, warn about consequences, or provide context that isn't obvious from the code itself.</p>
+
+                    <h2>The Boy Scout Rule</h2>
+                    <p>Leave the codebase cleaner than you found it. This simple rule, when followed by everyone on a team, ensures continuous improvement of code quality over time.</p>
+                `
+            },
+            post3: {
+                title: "My Journey as a Programming Student",
+                date: "Jan 5, 2025",
+                readTime: "6 min read",
+                excerpt: "Reflections on the challenges and breakthroughs in learning programming fundamentals. The ups and downs of a student's coding journey.",
+                image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&h=675&fit=crop",
+                tags: ["Learning", "Student Life", "Programming Journey", "Personal Growth"],
+                content: `
+                    <p>Learning to program has been one of the most challenging yet rewarding experiences of my life. It's a journey filled with frustration, breakthroughs, late-night debugging sessions, and moments of pure joy when everything finally clicks.</p>
+
+                    <h2>The Beginning: Everything is Hard</h2>
+                    <p>When I first started programming, everything seemed impossibly complex. Variables, functions, loops, conditions—concepts that experienced developers take for granted were foreign territories I had to navigate carefully.</p>
+
+                    <p>I remember spending hours trying to understand why my simple "Hello, World!" program wouldn't work, only to discover I had forgotten a semicolon. These small mistakes taught me the importance of attention to detail in programming.</p>
+
+                    <h3>The Imposter Syndrome Phase</h3>
+                    <p>As I progressed and started building more complex projects, I encountered imposter syndrome. Seeing other students or developers online create amazing applications while I struggled with basic concepts made me question whether I was cut out for this field.</p>
+
+                    <blockquote>
+                        "The expert in anything was once a beginner who never gave up."
+                    </blockquote>
+
+                    <p>This quote became my mantra during those difficult times. I realized that every expert was once where I am now, struggling with the same concepts I found challenging.</p>
+
+                    <h2>Finding My Learning Style</h2>
+                    <p>One of the most important discoveries in my journey was understanding how I learn best. I found that I'm a hands-on learner who needs to build projects to truly understand concepts.</p>
+
+                    <ul>
+                        <li><strong>Project-based learning:</strong> Building real applications helped me understand theory</li>
+                        <li><strong>Teaching others:</strong> Explaining concepts to classmates reinforced my own understanding</li>
+                        <li><strong>Reading code:</strong> Studying well-written open-source projects taught me best practices</li>
+                        <li><strong>Breaking things:</strong> Deliberately breaking my code taught me how systems work</li>
+                    </ul>
+
+                    <h3>The Breakthrough Moments</h3>
+                    <p>Programming is unique in that progress isn't always linear. You can struggle with a concept for weeks, and then suddenly, in one moment of clarity, everything makes sense.</p>
+
+                    <p>I'll never forget the day I finally understood recursion, or when I successfully implemented my first sorting algorithm. These breakthrough moments make all the frustration worthwhile.</p>
+
+                    <h2>Current Challenges and Goals</h2>
+                    <p>Even now, as I've gained more experience, new challenges constantly arise. The technology landscape evolves rapidly, and there's always something new to learn.</p>
+
+                    <p>Currently, I'm focusing on:</p>
+                    <ul>
+                        <li>Mastering data structures and algorithms</li>
+                        <li>Learning modern web development frameworks</li>
+                        <li>Understanding system design principles</li>
+                        <li>Contributing to open-source projects</li>
+                    </ul>
+
+                    <h3>Advice for Fellow Students</h3>
+                    <p>If you're just starting your programming journey, here's what I wish someone had told me:</p>
+
+                    <ol>
+                        <li><strong>Embrace the struggle:</strong> Difficulty is part of the process, not a sign you're not meant for this</li>
+                        <li><strong>Build projects:</strong> Theory is important, but building things is how you truly learn</li>
+                        <li><strong>Ask for help:</strong> The programming community is generally very supportive</li>
+                        <li><strong>Be patient:</strong> Learning takes time, and everyone progresses at their own pace</li>
+                        <li><strong>Stay curious:</strong> The best programmers are lifelong learners</li>
+                    </ol>
+
+                    <p>The journey continues, and I'm excited to see where it leads. Every day brings new challenges and opportunities to grow as both a programmer and a problem solver.</p>
+                `
+            }
+        };
+
+        // Get current article from URL parameter
+        function getCurrentArticle() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const postId = urlParams.get('post') || 'post1';
+            return articles[postId] || articles.post1;
+        }
+
+        // Populate article content
+        function populateArticle() {
+            const article = getCurrentArticle();
+            
+            document.getElementById('articleTitle').textContent = article.title + ' - Marco Julius Andreas';
+            document.getElementById('articleDate').textContent = article.date;
+            document.getElementById('readingTime').textContent = article.readTime;
+            document.getElementById('mainTitle').textContent = article.title;
+            document.getElementById('articleExcerpt').textContent = article.excerpt;
+            document.getElementById('featuredImage').src = article.image;
+            document.getElementById('articleBody').innerHTML = article.content;
+            
+            // Populate tags
+            const tagsContainer = document.querySelector('.tags');
+            tagsContainer.innerHTML = article.tags.map(tag => 
+                `<a href="#" class="tag">${tag}</a>`
+            ).join('');
+        }
+
+        // Copy link functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            populateArticle();
+            
+            // Copy link button
+            document.querySelector('.share-btn[title="Copy link"]').addEventListener('click', function(e) {
+                e.preventDefault();
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    // Visual feedback
+                    const originalTitle = this.title;
+                    this.title = 'Link copied!';
+                    setTimeout(() => {
+                        this.title = originalTitle;
+                    }, 2000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
